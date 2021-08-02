@@ -1,0 +1,40 @@
+
+jpython:S1192"RDefine a constant instead of duplicating this literal "ConsumedToday.csv" 3 times.(–¿Œ‹
+mpython:S1192¨"TDefine a constant instead of duplicating this literal "Unsaturated Fat (%)" 4 times.(¶ãÉ
+jpython:S1192©"QDefine a constant instead of duplicating this literal "Carbohydrate (%)" 4 times.(éÏ¯§
+lpython:S1192"TDefine a constant instead of duplicating this literal "Unsaturated Fat (g)" 8 times.(ÆÚ÷
+bpython:S1192"JDefine a constant instead of duplicating this literal "Fibre (g)" 8 times.(ÆÚ÷
+cpython:S1192©"JDefine a constant instead of duplicating this literal "Fibre (%)" 4 times.(éÏ¯§
+cpython:S1192©"JDefine a constant instead of duplicating this literal "Sugar (%)" 4 times.(éÏ¯§
+kpython:S1192¨"RDefine a constant instead of duplicating this literal "Saturated Fat (%)" 4 times.(¶ãÉ
+ipython:S1192"QDefine a constant instead of duplicating this literal "Carbohydrate (g)" 8 times.(ÆÚ÷
+bpython:S1192"JDefine a constant instead of duplicating this literal "Sugar (g)" 8 times.(ÆÚ÷
+jpython:S1192"RDefine a constant instead of duplicating this literal "Saturated Fat (g)" 8 times.(ÆÚ÷
+kpython:S1192§"MDefine a constant instead of duplicating this literal "Calories (%)" 4 times.( ÈÆ•ıÿÿÿÿ
+jpython:S1192§"LDefine a constant instead of duplicating this literal "Protein (%)" 4 times.( ÈÆ•ıÿÿÿÿ
+dpython:S1192"LDefine a constant instead of duplicating this literal "Protein (g)" 8 times.(ÆÚ÷
+_python:S2208"GImport only needed names or import the module and then use its members.(ï€¢
+ipython:S1542"QRename function "clearInputs" to match the regular expression ^[a-z_][a-z0-9_]*$.(õÌé
+rpython:S117""[Rename this local variable "getNewRepo" to match the regular expression ^[_a-z][a-z0-9_]*$.(·çÏÙ
+spython:S1175"WRename this local variable "newRow" to match the regular expression ^[_a-z][a-z0-9_]*$.(³´èøÿÿÿÿ
+tpython:S117N"]Rename this local variable "pastFoodRows" to match the regular expression ^[_a-z][a-z0-9_]*$.(¢›œ
+xpython:S117c"\Rename this local variable "columnToday" to match the regular expression ^[_a-z][a-z0-9_]*$.(±£©Áıÿÿÿÿ
+zpython:S117g"^Rename this local variable "todayFoodRows" to match the regular expression ^[_a-z][a-z0-9_]*$.(ôĞÍ¯úÿÿÿÿ
+jpython:S1542R"RRename function "getTodayFood" to match the regular expression ^[a-z_][a-z0-9_]*$.(ıÊú¸
+tpython:S117n"]Rename this local variable "SelectedItem" to match the regular expression ^[_a-z][a-z0-9_]*$.(à©‹ˆ
+tpython:S117o"]Rename this local variable "pastFoodDict" to match the regular expression ^[_a-z][a-z0-9_]*$.(Áûé´
+gpython:S1542k"PRename function "selectItem" to match the regular expression ^[a-z_][a-z0-9_]*$.(ª¤ô
+ypython:S117„"\Rename this local variable "columnToday" to match the regular expression ^[_a-z][a-z0-9_]*$.(±£©Áıÿÿÿÿ
+rpython:S1542w"ZRename function "makeRepoInputHeaders" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ñœ¶
+|python:S117˜"_Rename this local variable "Initial_Totals" to match the regular expression ^[_a-z][a-z0-9_]*$.(áÍã½ûÿÿÿÿ
+tpython:S117µ"\Rename this local variable "columnProps" to match the regular expression ^[_a-z][a-z0-9_]*$.(§¿´Ç
+upython:S117¤"]Rename this local variable "columnTotals" to match the regular expression ^[_a-z][a-z0-9_]*$.(Ëî‚è
+upython:S1542‡"WRename function "makeTotalsHeaders" to match the regular expression ^[a-z_][a-z0-9_]*$.(¸ÂÎûüÿÿÿÿ
+ypython:S117È"\Rename this local variable "Today_Final" to match the regular expression ^[_a-z][a-z0-9_]*$.(¼¦œâøÿÿÿÿ
+jpython:S1542¾"QRename function "endFunction" to match the regular expression ^[a-z_][a-z0-9_]*$.(ÁçÒê
+lpython:S1542Ë"NRename function "getTotal" to match the regular expression ^[a-z_][a-z0-9_]*$.(—Ü¥ïøÿÿÿÿ
+jpython:S1542Õ"LRename function "Totals" to match the regular expression ^[a-z_][a-z0-9_]*$.(Àšİ‘ıÿÿÿÿ
+jpython:S1542î"LRename function "newDay" to match the regular expression ^[a-z_][a-z0-9_]*$.(ŸˆØùÿÿÿÿ
+|python:S117©"_Rename this local variable "recordFoodRows" to match the regular expression ^[_a-z][a-z0-9_]*$.(àöÈëüÿÿÿÿ
+ipython:S1542‚"PRename function "getRecords" to match the regular expression ^[a-z_][a-z0-9_]*$.(›àß•
+spython:S1542µ"URename function "insertNewRecord" to match the regular expression ^[a-z_][a-z0-9_]*$.(»–†–şÿÿÿÿ

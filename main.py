@@ -5,6 +5,7 @@ import ctypes
 import pandas as pd
 import atexit
 from datetime import date
+import numpy as np
 
 user32 = ctypes.windll.user32
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
@@ -38,11 +39,11 @@ def add_pastfood():
         for entry in getNewRepo[1:len(getNewRepo)]:
             try:
                 # Convert it into integer
-                val = int(entry)
+                int(entry)
             except ValueError:
                 try:
                     # Convert it into float
-                    val = float(entry)
+                    float(entry)
                 except ValueError:
                     return None
         pastFoodTV.insert("", index=0, values=getNewRepo)
@@ -103,14 +104,15 @@ def getTodayFood():
     for row in todayFoodRows:
         todayFoodTV.insert("", "end", values=row)
 
-def selectItem(todayFood_df):
+def selectItem(self):
+    global Today_Temp
+
     SelectedItem = pastFoodTV.focus()
     pastFoodDict = dict(pastFoodTV.item(SelectedItem))
     SelectedItem = pastFoodDict['values']
     # Data
     todayFoodTV.insert("", index=0, values=SelectedItem)
 
-    global Today_Temp
     Today_Temp.append(SelectedItem)
     Totals()
 
@@ -200,14 +202,17 @@ def endFunction():
 
 def getTotal(column = 1):
     global totals
+
     tot = 0
     tree = todayFoodTV
     for child in tree.get_children():
         tot += float(tree.item(child, 'values')[column])
+    # print(tot)
     totals.append(tot)
 
 def Totals():
     global MaxAmount
+
     getTotal(1)
     getTotal(2)
     getTotal(3)
@@ -231,25 +236,24 @@ def Totals():
     propFrameTV.insert("", "end", values=proportions)
 
 def newDay():
-    global todayFood_df
-    global Today_Temp
-    global totals
+    if len(todayFoodTV.get_children()) > 0:
+        global todayFood_df
+        global Today_Temp
+        global totals
 
-    todayFood_df = todayFood_df[0:0]
-    todayFood_df.to_csv("ConsumedToday.csv", index=False)
+        todayFood_df = todayFood_df[0:0]
+        todayFood_df.to_csv("ConsumedToday.csv", index=False)
 
-    todayFoodTV.delete(*todayFoodTV.get_children())
-    totalsFrameTV.delete(*totalsFrameTV.get_children())
-    totalsFrameTV.insert("", "end", values=[0,0,0,0,0,0,0])
+        insertNewRecord()
 
-    propFrameTV.delete(*propFrameTV.get_children())
-    propFrameTV.insert("", "end", values=[0,0,0,0,0,0,0])
+        todayFoodTV.delete(*todayFoodTV.get_children())
+        totalsFrameTV.delete(*totalsFrameTV.get_children())
+        totalsFrameTV.insert("", "end", values=[0,0,0,0,0,0,0])
 
-    Today_Temp = [["Item", "Calories", "Protein (g)", "Saturated Fat (g)", "Unsaturated Fat (g)", "Carbohydrate (g)", "Sugar (g)", "Fibre (g)"]]
+        propFrameTV.delete(*propFrameTV.get_children())
+        propFrameTV.insert("", "end", values=[0,0,0,0,0,0,0])
 
-    record_totals = [date.today().strftime("%d/%m/%Y")] + totals[-7:]
-    print(record_totals)
-    # proportions = ["Percentage (%)"] + proportions
+        Today_Temp = [["Item", "Calories", "Protein (g)", "Saturated Fat (g)", "Unsaturated Fat (g)", "Carbohydrate (g)", "Sugar (g)", "Fibre (g)"]]
 
 def getRecords():
     global recordsFood_df
@@ -258,23 +262,77 @@ def getRecords():
     pastTotalsFrameTV["show"] = "headings"
 
     # Column Structure
-    pastFoodTV.column("Date", width=120, minwidth=1, anchor=W)
-    pastFoodTV.column("Calories", width=75, minwidth=1, anchor=W)
-    pastFoodTV.column("Protein (g)", width=75, minwidth=1, anchor=W)
-    pastFoodTV.column("Saturated Fat (g)", width=130, minwidth=1, anchor=W)
-    pastFoodTV.column("Unsaturated Fat (g)", width=130, minwidth=1, anchor=W)
-    pastFoodTV.column("Carbohydrate (g)", width=130, minwidth=1, anchor=W)
-    pastFoodTV.column("Sugar (g)", width=75, minwidth=1, anchor=W)
-    pastFoodTV.column("Fibre (g)", width=75, minwidth=1, anchor=W)
+    pastTotalsFrameTV.column("Date", width=80, minwidth=1, anchor=W)
+    pastTotalsFrameTV.column("Calories", width=75, minwidth=1, anchor=W)
+    pastTotalsFrameTV.column("Protein (g)", width=75, minwidth=1, anchor=W)
+    pastTotalsFrameTV.column("Saturated Fat (g)", width=130, minwidth=1, anchor=W)
+    pastTotalsFrameTV.column("Unsaturated Fat (g)", width=130, minwidth=1, anchor=W)
+    pastTotalsFrameTV.column("Carbohydrate (g)", width=130, minwidth=1, anchor=W)
+    pastTotalsFrameTV.column("Sugar (g)", width=75, minwidth=1, anchor=W)
+    pastTotalsFrameTV.column("Fibre (g)", width=75, minwidth=1, anchor=W)
 
     # Headers
-    for column in pastFoodTV["columns"]:
-        pastFoodTV.heading(column, text=column, anchor=W)
+    for column in pastTotalsFrameTV["columns"]:
+        pastTotalsFrameTV.heading(column, text=column, anchor=W)
+
+    pastPropFrameTV["columns"] = ["Date", "Calories (%)", "Protein (%)",
+        "Saturated Fat (%)", "Unsaturated Fat (%)",
+        "Carbohydrate (%)", "Sugar (%)", "Fibre (%)"]
+
+    pastPropFrameTV["show"] = "headings"
+    pastPropFrameTV.column("Date", width=80, minwidth=1, anchor=W)
+    pastPropFrameTV.column("Calories (%)", width=75, minwidth=1, anchor=W)
+    pastPropFrameTV.column("Protein (%)", width=75, minwidth=1, anchor=W)
+    pastPropFrameTV.column("Saturated Fat (%)", width=130, minwidth=1, anchor=W)
+    pastPropFrameTV.column("Unsaturated Fat (%)", width=130, minwidth=1, anchor=W)
+    pastPropFrameTV.column("Carbohydrate (%)", width=130, minwidth=1, anchor=W)
+    pastPropFrameTV.column("Sugar (%)", width=75, minwidth=1, anchor=W)
+    pastPropFrameTV.column("Fibre (%)", width=75, minwidth=1, anchor=W)
+
+    # Headers
+    for column in pastPropFrameTV["columns"]:
+        pastPropFrameTV.heading(column, text=column, anchor=W)
 
     # Data
-    pastFoodRows = pastFood_df.to_numpy().tolist()
-    for row in pastFoodRows:
-        pastFoodTV.insert("", "end", values=row)
+    recordFoodRows = recordsFood_df.to_numpy().tolist()
+    for row in recordFoodRows:
+        pastTotalsFrameTV.insert("", "end", values=row)
+        temp_date = row[0]
+        temp_record = row[1:]
+        pro_record = [c / d for c, d in zip(temp_record, MaxAmount)]
+        pro_record = [(e * 100) for e in pro_record]
+        pro_record = [round(elem, 2) for elem in pro_record]
+        pro_record = [temp_date] + pro_record
+
+        pastPropFrameTV.insert("", "end", values=pro_record)
+
+def insertNewRecord():
+    record_total = []
+    global recordsFood_df
+
+    for i in range(0,7):
+        for child in totalsFrameTV.get_children():
+            record_temp = float(totalsFrameTV.item(child, 'values')[i])
+        record_total.append(record_temp)
+
+
+    pro_record2 = [c / d for c, d in zip(record_total, MaxAmount)]
+    pro_record2 = [(e * 100) for e in pro_record2]
+
+    record_total = [round(elem, 1) for elem in record_total]
+    pro_record2 = [round(elem, 2) for elem in pro_record2]
+
+    record_total = [date.today().strftime("%d/%m/%Y")] + record_total
+    pro_record2 = [date.today().strftime("%d/%m/%Y")] + pro_record2
+
+    pastTotalsFrameTV.insert("",index=0,values = record_total)
+    pastPropFrameTV.insert("",index=0,values=pro_record2)
+
+    recordsFood_df.index = recordsFood_df.index + 1
+    recordsFood_df = recordsFood_df.reindex(np.arange(len(recordsFood_df)+1))
+    recordsFood_df.loc[0] = record_total
+
+    recordsFood_df.to_csv("PastRecords.csv", index = False)
 
 # Main Application ####
 if __name__ == '__main__':
@@ -283,7 +341,7 @@ if __name__ == '__main__':
     height = 1080
     style = Style(theme='cyclingtheme', themes_file='CyclingApp_theme.json')
     root = style.master
-    root.title("Title")
+    root.title("Diet App")
     root.state('zoomed')
     # root.iconbitmap('icon location')
     root.geometry(str(width)+"x"+str(height))
@@ -387,26 +445,34 @@ if __name__ == '__main__':
     my_notebook3.pack(fill="both", expand=1)
 
     pastTotalsTab = Frame(my_notebook3, width=width * .99, height=height * .95)
-    my_notebook3.pack(fill="both", expand=1)
-    #
     my_notebook3.add(pastTotalsTab, text = "Totals")
+
     pastTotalsFrameTV = ttk.Treeview(pastTotalsTab)
     pastTotalsFrameTV.place(relheight=1, relwidth=1)
-    #
-    # propFrame = Frame(my_notebook2, width=width * .99, height=height * .95)
-    # propFrame.pack(fill="both", expand=1)
-    #
-    # my_notebook2.add(propFrame, text = "Allowance Proportions")
-    # propFrameTV = ttk.Treeview(propFrame)
-    # propFrameTV.place(relheight=1, relwidth=1)
 
-    # pastTotalsFrameTV = ttk.Treeview(pastTotalsFrame)
-    # pastTotalsFrameTV.place(relheight=1, relwidth=1)
+    pastTotalsFrame_y = ttk.Scrollbar(pastTotalsTab, orient="vertical", command=pastTotalsFrameTV.yview)
+    pastTotalsFrameTV.configure(yscrollcommand=pastTotalsFrame_y.set)
+    pastTotalsFrame_y.pack(side="right", fill="y")
+
+    pastPropFrame = Frame(my_notebook3, width=width * .99, height=height * .95)
+    my_notebook3.add(pastPropFrame, text = "Allowance Proportions")
+
+    pastPropFrameTV = ttk.Treeview(pastPropFrame)
+    pastPropFrameTV.place(relheight=1, relwidth=1)
+
+    pastPropFrame_y = ttk.Scrollbar(pastPropFrame, orient="vertical", command=pastPropFrameTV.yview)
+    pastPropFrameTV.configure(yscrollcommand=pastPropFrame_y.set)
+    pastPropFrame_y.pack(side="right", fill="y")
+
+    # Progress Graphs
+    GraphsFrame = ttk.LabelFrame(foodFrame, text = "Progress Graphs")
+    GraphsFrame.place(height=height / 2.098, width=width / 2.03, relx=0, rely=0.47)
 
     get_pastfood()
     getTodayFood()
     makeRepoInputHeaders()
     makeTotalsHeaders()
+    getRecords()
     root.mainloop()
 
 atexit.register(endFunction)
