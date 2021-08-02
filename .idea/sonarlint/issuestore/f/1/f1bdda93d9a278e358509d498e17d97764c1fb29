@@ -1,0 +1,20 @@
+
+lpython:S1192#"TDefine a constant instead of duplicating this literal "Unsaturated Fat (g)" 3 times.(ñó–€
+bpython:S1192&"JDefine a constant instead of duplicating this literal "Fibre (g)" 3 times.(ß³®Æ
+ipython:S1192$"QDefine a constant instead of duplicating this literal "Carbohydrate (g)" 3 times.(€›²³
+gpython:S1192%"JDefine a constant instead of duplicating this literal "Sugar (g)" 3 times.(ù®Ù€ÿÿÿÿÿ
+opython:S1192""RDefine a constant instead of duplicating this literal "Saturated Fat (g)" 3 times.(²Á¼ûÿÿÿÿ
+ipython:S1192!"LDefine a constant instead of duplicating this literal "Protein (g)" 3 times.(–³· üÿÿÿÿ
+_python:S2208"GImport only needed names or import the module and then use its members.(ï€¢
+tpython:S117"XRename this local variable "getItem" to match the regular expression ^[_a-z][a-z0-9_]*$.(ÿÒÑ³ùÿÿÿÿ
+tpython:S117-"]Rename this local variable "pastFoodRows" to match the regular expression ^[_a-z][a-z0-9_]*$.(¢›œ
+kpython:S15421"TRename function "clearTodayFood" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ç©ÒL
+xpython:S117G"\Rename this local variable "columnToday" to match the regular expression ^[_a-z][a-z0-9_]*$.(±£©Áıÿÿÿÿ
+zpython:S117K"^Rename this local variable "todayFoodRows" to match the regular expression ^[_a-z][a-z0-9_]*$.(ôĞÍ¯úÿÿÿÿ
+jpython:S15424"RRename function "getTodayFood" to match the regular expression ^[a-z_][a-z0-9_]*$.(ıÊú¸
+tpython:S117R"]Rename this local variable "SelectedItem" to match the regular expression ^[_a-z][a-z0-9_]*$.(à©‹ˆ
+tpython:S117S"]Rename this local variable "pastFoodDict" to match the regular expression ^[_a-z][a-z0-9_]*$.(Áûé´
+tpython:S117Q"XRename this parameter "todayFood_df" to match the regular expression ^[_a-z][a-z0-9_]*$.(‰äĞœùÿÿÿÿ
+mpython:S1542Q"PRename function "selectItem" to match the regular expression ^[a-z_][a-z0-9_]*$.(‰äĞœùÿÿÿÿ
+xpython:S117e"\Rename this local variable "columnToday" to match the regular expression ^[_a-z][a-z0-9_]*$.(±£©Áıÿÿÿÿ
+rpython:S1542X"ZRename function "makeRepoInputHeaders" to match the regular expression ^[a-z_][a-z0-9_]*$.(Ñœ¶
