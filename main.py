@@ -4,6 +4,7 @@ from ttkbootstrap import Style
 import ctypes
 import pandas as pd
 import atexit
+from datetime import date
 
 user32 = ctypes.windll.user32
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
@@ -14,6 +15,7 @@ Proportions = []
 Today_Temp = [["Item","Calories","Protein (g)","Saturated Fat (g)","Unsaturated Fat (g)","Carbohydrate (g)","Sugar (g)","Fibre (g)"]]
 pastFood_df = pd.read_csv("food_repo.csv")
 todayFood_df = pd.read_csv("ConsumedToday.csv")
+recordsFood_df = pd.read_csv("PastRecords.csv")
 
 # Functions ####
 def clearInputs():
@@ -230,6 +232,9 @@ def Totals():
 
 def newDay():
     global todayFood_df
+    global Today_Temp
+    global totals
+
     todayFood_df = todayFood_df[0:0]
     todayFood_df.to_csv("ConsumedToday.csv", index=False)
 
@@ -240,8 +245,36 @@ def newDay():
     propFrameTV.delete(*propFrameTV.get_children())
     propFrameTV.insert("", "end", values=[0,0,0,0,0,0,0])
 
-    # final_totals = ["Total (g)"] + final_totals
+    Today_Temp = [["Item", "Calories", "Protein (g)", "Saturated Fat (g)", "Unsaturated Fat (g)", "Carbohydrate (g)", "Sugar (g)", "Fibre (g)"]]
+
+    record_totals = [date.today().strftime("%d/%m/%Y")] + totals[-7:]
+    print(record_totals)
     # proportions = ["Percentage (%)"] + proportions
+
+def getRecords():
+    global recordsFood_df
+
+    pastTotalsFrameTV["columns"] = list(recordsFood_df.columns)
+    pastTotalsFrameTV["show"] = "headings"
+
+    # Column Structure
+    pastFoodTV.column("Date", width=120, minwidth=1, anchor=W)
+    pastFoodTV.column("Calories", width=75, minwidth=1, anchor=W)
+    pastFoodTV.column("Protein (g)", width=75, minwidth=1, anchor=W)
+    pastFoodTV.column("Saturated Fat (g)", width=130, minwidth=1, anchor=W)
+    pastFoodTV.column("Unsaturated Fat (g)", width=130, minwidth=1, anchor=W)
+    pastFoodTV.column("Carbohydrate (g)", width=130, minwidth=1, anchor=W)
+    pastFoodTV.column("Sugar (g)", width=75, minwidth=1, anchor=W)
+    pastFoodTV.column("Fibre (g)", width=75, minwidth=1, anchor=W)
+
+    # Headers
+    for column in pastFoodTV["columns"]:
+        pastFoodTV.heading(column, text=column, anchor=W)
+
+    # Data
+    pastFoodRows = pastFood_df.to_numpy().tolist()
+    for row in pastFoodRows:
+        pastFoodTV.insert("", "end", values=row)
 
 # Main Application ####
 if __name__ == '__main__':
@@ -322,12 +355,15 @@ if __name__ == '__main__':
     testButton.config(width = 20)
 
     newDayButton = ttk.Button(buttonFrame, text = "New day", command = lambda:newDay(), style = 'warning.Outline.TButton')
-    newDayButton.place(relx=0.8, rely=0)
+    newDayButton.place(relx=0.82, rely=0)
     newDayButton.config(width = 20)
 
     # Totals
-    my_notebook2 = ttk.Notebook(foodFrame)
-    my_notebook2.place(height=height / 12, width=width / 2.03, relx=0.501, rely=0.47425)
+    todaySummary = ttk.LabelFrame(foodFrame, text = "Today's summary")
+    todaySummary.place(height=height / 10.5, width=width / 2.03, relx=0.501, rely=0.47)
+
+    my_notebook2 = ttk.Notebook(todaySummary)
+    my_notebook2.pack()
 
     totalsFrame = Frame(my_notebook2, width=width * .99, height=height * .95)
     totalsFrame.pack(fill="both", expand=1)
@@ -342,6 +378,30 @@ if __name__ == '__main__':
     my_notebook2.add(propFrame, text = "Allowance Proportions")
     propFrameTV = ttk.Treeview(propFrame)
     propFrameTV.place(relheight=1, relwidth=1)
+
+    # Past Totals
+    pastTotalsFrame = ttk.LabelFrame(foodFrame, text = "Past Records")
+    pastTotalsFrame.place(height=height / 2.65, width=width / 2.03, relx=0.501, rely=0.58)
+
+    my_notebook3 = ttk.Notebook(pastTotalsFrame)
+    my_notebook3.pack(fill="both", expand=1)
+
+    pastTotalsTab = Frame(my_notebook3, width=width * .99, height=height * .95)
+    my_notebook3.pack(fill="both", expand=1)
+    #
+    my_notebook3.add(pastTotalsTab, text = "Totals")
+    pastTotalsFrameTV = ttk.Treeview(pastTotalsTab)
+    pastTotalsFrameTV.place(relheight=1, relwidth=1)
+    #
+    # propFrame = Frame(my_notebook2, width=width * .99, height=height * .95)
+    # propFrame.pack(fill="both", expand=1)
+    #
+    # my_notebook2.add(propFrame, text = "Allowance Proportions")
+    # propFrameTV = ttk.Treeview(propFrame)
+    # propFrameTV.place(relheight=1, relwidth=1)
+
+    # pastTotalsFrameTV = ttk.Treeview(pastTotalsFrame)
+    # pastTotalsFrameTV.place(relheight=1, relwidth=1)
 
     get_pastfood()
     getTodayFood()
