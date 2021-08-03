@@ -6,6 +6,7 @@ import pandas as pd
 import atexit
 from datetime import date
 import numpy as np
+import matplotlib.pyplot as plt
 
 user32 = ctypes.windll.user32
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
@@ -334,6 +335,24 @@ def insertNewRecord():
 
     recordsFood_df.to_csv("PastRecords.csv", index = False)
 
+def plotGraphs():
+    import pandas as pd
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+
+    title = 'Total Amount (g)'
+
+    df1 = pd.read_csv("PastRecords.csv")
+    df1["Date"] = pd.to_datetime(df1["Date"], dayfirst=True)
+    df1 = df1.drop(["Calories"], axis=1)
+    df = df1.melt('Date', var_name='Nutrient Type', value_name='Total Amount Consumed (g)')
+    df["Date"] = pd.to_datetime(df["Date"], dayfirst=True)
+
+    g = sns.scatterplot(x="Date", y='Total Amount Consumed (g)', hue='Nutrient Type', data=df)
+    g2 = sns.lineplot(x="Date", y='Total Amount Consumed (g)', hue='Nutrient Type', data=df, legend=False)
+
+    plt.show()
+
 # Main Application ####
 if __name__ == '__main__':
     # Root
@@ -468,11 +487,21 @@ if __name__ == '__main__':
     GraphsFrame = ttk.LabelFrame(foodFrame, text = "Progress Graphs")
     GraphsFrame.place(height=height / 2.098, width=width / 2.03, relx=0, rely=0.47)
 
+    my_notebook4 = ttk.Notebook(GraphsFrame)
+    my_notebook4.pack(fill="both", expand=1)
+
+    TotalsPlotTab = Frame(my_notebook4, width=width * .99, height=height * .95)
+    my_notebook4.add(TotalsPlotTab, text="Totals Plot")
+
+    propsPlotTab = Frame(my_notebook4, width=width * .99, height=height * .95)
+    my_notebook4.add(propsPlotTab, text="Proportions Plot")
+
     get_pastfood()
     getTodayFood()
     makeRepoInputHeaders()
     makeTotalsHeaders()
     getRecords()
+    plotGraphs()
     root.mainloop()
 
 atexit.register(endFunction)
