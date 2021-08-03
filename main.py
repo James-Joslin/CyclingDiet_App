@@ -340,7 +340,7 @@ def plotGraphs():
     import seaborn as sns
     import matplotlib.pyplot as plt
 
-    title = 'Total Amount (g)'
+    # plt.cla()
 
     df1 = pd.read_csv("PastRecords.csv")
     df1["Date"] = pd.to_datetime(df1["Date"], dayfirst=True)
